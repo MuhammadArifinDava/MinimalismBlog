@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900;
+  background-image: radial-gradient(1200px circle at 20% 0%, rgba(99, 102, 241, 0.18), transparent 45%),
+    radial-gradient(900px circle at 80% 10%, rgba(147, 51, 234, 0.14), transparent 40%),
+    radial-gradient(900px circle at 50% 100%, rgba(14, 165, 233, 0.10), transparent 50%);
+}
+
+.surface {
+  @apply bg-white/80 backdrop-blur-md border border-slate-200/60 shadow-sm;
+}
+
+.card-3d {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.card-3d:hover {
+  transform: translateY(-6px) rotateX(2deg) rotateY(-2deg);
+}
+
+.card-3d:active {
+  transform: translateY(-2px) rotateX(1deg) rotateY(-1deg);
+}
+
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(120deg, transparent 35%, rgba(255, 255, 255, 0.28), transparent 65%);
+  transform: translateX(-40%) rotate(12deg);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+
+.shine:hover::after {
+  opacity: 1;
+  animation: shine-sweep 1.2s ease forwards;
+}
+
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-45%) rotate(12deg);
+  }
+  100% {
+    transform: translateX(45%) rotate(12deg);
+  }
+}
+
+.markdown h1 {
+  @apply text-3xl font-semibold mt-6 mb-3;
+}
+.markdown h2 {
+  @apply text-2xl font-semibold mt-6 mb-3;
+}
+.markdown h3 {
+  @apply text-xl font-semibold mt-6 mb-3;
+}
+.markdown p {
+  @apply my-3 leading-7;
+}
+.markdown ul {
+  @apply list-disc pl-6 my-3;
+}
+.markdown ol {
+  @apply list-decimal pl-6 my-3;
+}
+.markdown a {
+  @apply text-blue-600 underline;
+}
+.markdown pre {
+  @apply bg-slate-900 text-slate-50 p-3 rounded-lg overflow-x-auto my-4;
+}
+.markdown code {
+  @apply bg-slate-200 px-1 py-0.5 rounded;
+}
+.markdown pre code {
+  @apply bg-transparent p-0;
+}
