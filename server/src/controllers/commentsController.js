@@ -15,7 +15,7 @@ async function listCommentsByPost(req, res) {
 
   const items = await Comment.find({ post: postId })
     .sort({ createdAt: 1 })
-    .populate("author", "username")
+    .populate("author", "username avatarPath")
     .lean();
 
   return res.json({ items });
@@ -42,7 +42,7 @@ async function createComment(req, res) {
   }
 
   const comment = await Comment.create({ content, author: req.user.id, post: postId });
-  const populated = await Comment.findById(comment._id).populate("author", "username").lean();
+  const populated = await Comment.findById(comment._id).populate("author", "username avatarPath").lean();
 
   return res.status(201).json({ comment: populated });
 }

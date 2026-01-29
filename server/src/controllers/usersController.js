@@ -10,7 +10,7 @@ async function getMe(req, res) {
   delete user.passwordHash;
   const posts = await Post.find({ author: req.user.id })
     .sort({ createdAt: -1 })
-    .populate("author", "username")
+    .populate("author", "username avatarPath")
     .lean();
 
   return res.json({ user, posts });
@@ -32,4 +32,22 @@ async function updateMyAvatar(req, res) {
   return res.json({ user: user.toJSON() });
 }
 
-module.exports = { getMe, updateMyAvatar };
+async function getUserById(req, res) {
+  const { id } = req.params;
+  const user = await User.findById(id).lean();
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  delete user.passwordHash;
+  delete user.email; // Don't expose email publicly
+
+  const posts = await Post.find({ author: id })
+    .sort({ createdAt: -1 })
+    .populate("author", "username avatarPath")
+    .lean();
+
+  return res.json({ user, posts });
+}
+
+module.exports = { getMe, updateMyAvatar, getUserById };

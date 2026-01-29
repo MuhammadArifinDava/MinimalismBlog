@@ -2,6 +2,7 @@ const express = require("express");
 const { asyncHandler } = require("../utils/asyncHandler");
 const { requireAuth } = require("../middleware/auth");
 const { requirePostOwner, requireCommentOwner } = require("../middleware/ownership");
+const { upload } = require("../middleware/upload");
 const {
   listPosts,
   getPost,
@@ -20,8 +21,8 @@ const router = express.Router();
 
 router.get("/", asyncHandler(listPosts));
 router.get("/:id", asyncHandler(getPost));
-router.post("/", requireAuth, asyncHandler(createPost));
-router.put("/:id", requireAuth, asyncHandler(requirePostOwner), asyncHandler(updatePost));
+router.post("/", requireAuth, upload.single("image"), asyncHandler(createPost));
+router.put("/:id", requireAuth, asyncHandler(requirePostOwner), upload.single("image"), asyncHandler(updatePost));
 router.delete("/:id", requireAuth, asyncHandler(requirePostOwner), asyncHandler(deletePost));
 
 router.get("/:id/comments", asyncHandler(listCommentsByPost));
