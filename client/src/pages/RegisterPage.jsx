@@ -48,33 +48,32 @@ function RegisterPage() {
   };
 
   return (
-    <Container>
-      <div className="py-16">
-        <Motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          viewport={{ once: true, amount: 0.6 }}
-          className="mx-auto max-w-md [perspective:1200px]"
-        >
-          <div className="card-3d surface rounded-[32px] p-8">
-            <div>
-              <p className="text-xs uppercase tracking-[0.28em] text-slate-500">Create account</p>
-              <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight text-slate-900">
-                Start sharing your ideas.
-              </h1>
-              <p className="mt-3 text-sm leading-7 text-slate-600">
-                Join the archive and publish with confidence.
-              </p>
+    <div className="flex min-h-[calc(100vh-100px)] items-center justify-center bg-gray-50">
+      <Motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        viewport={{ once: true, amount: 0.6 }}
+        className="w-full max-w-md p-4 [perspective:1200px]"
+      >
+        <div className="card-3d surface rounded-[32px] bg-white p-8 shadow-xl">
+          <div>
+            <p className="text-xs uppercase tracking-[0.28em] text-slate-500">Create account</p>
+            <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight text-slate-900">
+              Start sharing your ideas.
+            </h1>
+            <p className="mt-3 text-sm leading-7 text-slate-600">
+              Join the archive and publish with confidence.
+            </p>
+          </div>
+
+          {error ? (
+            <div className="mt-5">
+              <Alert>{error}</Alert>
             </div>
+          ) : null}
 
-            {error ? (
-              <div className="mt-5">
-                <Alert>{error}</Alert>
-              </div>
-            ) : null}
-
-            <form onSubmit={onSubmit} className="mt-8 space-y-4">
+          <form onSubmit={onSubmit} className="mt-8 space-y-4">
               <div>
                 <label className="block text-xs uppercase tracking-[0.24em] text-slate-500">Name</label>
                 <input
@@ -131,7 +130,6 @@ function RegisterPage() {
           </div>
         </Motion.div>
       </div>
-    </Container>
   );
 }
 

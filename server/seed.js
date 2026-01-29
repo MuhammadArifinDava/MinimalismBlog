@@ -22,11 +22,41 @@ const seedData = async () => {
     const passwordHash = await bcrypt.hash("password123", 10);
 
     const users = await User.insertMany([
-      { name: "John Doe", username: "johndoe", email: "john@example.com", passwordHash },
-      { name: "Jane Doe", username: "janedoe", email: "jane@example.com", passwordHash },
-      { name: "Tech Guru", username: "techguru", email: "guru@tech.com", passwordHash },
-      { name: "Creative Mind", username: "creativemind", email: "design@art.com", passwordHash },
-      { name: "Traveler", username: "traveler", email: "travel@world.com", passwordHash },
+      { 
+        name: "Arifin Dava", 
+        username: "arifindava", 
+        email: "arifin@example.com", 
+        passwordHash,
+        avatarPath: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80" 
+      },
+      { 
+        name: "Sarah Miller", 
+        username: "sarahm", 
+        email: "sarah@example.com", 
+        passwordHash,
+        avatarPath: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80"
+      },
+      { 
+        name: "David Chen", 
+        username: "davidc", 
+        email: "david@tech.com", 
+        passwordHash,
+        avatarPath: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80"
+      },
+      { 
+        name: "Emily Watson", 
+        username: "emilyart", 
+        email: "emily@art.com", 
+        passwordHash,
+        avatarPath: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80"
+      },
+      { 
+        name: "Marcus Aurelius", 
+        username: "marcus", 
+        email: "marcus@history.com", 
+        passwordHash,
+        avatarPath: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80"
+      },
     ]);
 
     console.log(`${users.length} users created.`);
@@ -34,112 +64,114 @@ const seedData = async () => {
     console.log("Creating posts...");
     const postsData = [
       {
-        title: "Masa Depan Artificial Intelligence di 2026",
+        title: "Revolusi AI: Peluang atau Ancaman?",
         category: "Tech",
-        content: `Artificial Intelligence (AI) terus berkembang dengan kecepatan eksponensial. Di tahun 2026, kita melihat integrasi yang lebih dalam antara AI dan kehidupan sehari-hari.
+        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        content: `Kecerdasan Buatan (AI) telah mengubah lanskap teknologi dunia dengan kecepatan yang belum pernah terjadi sebelumnya. Dari ChatGPT hingga Midjourney, alat-alat ini bukan lagi sekadar mainan futuristik, tetapi telah menjadi bagian integral dari alur kerja profesional.
 
-## Tren Utama
-1. **Generative AI di mana-mana**: Dari pembuatan kode hingga desain grafis, AI menjadi asisten utama.
-2. **AI Etis**: Fokus pada transparansi dan pengurangan bias.
-3. **Automasi Rumah**: Rumah pintar yang benar-benar "pintar" dan proaktif.
+## Dampak pada Industri Kreatif
+Para desainer dan penulis kini dihadapkan pada realitas baru. Apakah AI akan menggantikan mereka? Jawabannya mungkin tidak sesederhana "ya" atau "tidak". AI lebih berperan sebagai *co-pilot* yang meningkatkan produktivitas, bukan pengganti total kreativitas manusia.
 
-Bagaimana pendapatmu tentang perkembangan ini?`,
-        author: users[2]._id,
+> "AI tidak akan menggantikanmu. Seseorang yang menggunakan AI akan menggantikanmu."
+
+### Apa yang Harus Dipersiapkan?
+1. **Adaptabilitas**: Kemampuan untuk belajar alat baru dengan cepat.
+2. **Pemikiran Kritis**: AI bisa salah, manusia harus menjadi editor terakhir.
+3. **Kreativitas Strategis**: Fokus pada "mengapa" dan "apa", biarkan AI menangani "bagaimana".
+
+Masa depan cerah bagi mereka yang mau beradaptasi.`,
+        author: users[0]._id, // Arifin Dava
       },
       {
-        title: "Tips Fotografi Minimalis untuk Pemula",
-        category: "Photography",
-        content: `Fotografi minimalis adalah tentang "less is more". Ini bukan hanya tentang mengambil gambar objek kosong, tapi tentang komposisi.
-
-### Kunci Fotografi Minimalis:
-- **Negative Space**: Berikan ruang bernapas pada subjek.
-- **Warna Kontras**: Gunakan warna yang berani atau monokromatik.
-- **Pola Geometris**: Cari garis dan bentuk di sekitarmu.
-
-Mulailah dengan memotret langit atau dinding polos dengan satu subjek menarik.`,
-        author: users[3]._id,
-      },
-      {
-        title: "Panduan Traveling Hemat ke Jepang",
-        category: "Travel",
-        content: `Jepang dikenal mahal, tapi sebenarnya bisa murah jika tahu caranya!
-
-1. **Makan di Konbini**: Makanan di minimarket Jepang sangat enak dan murah.
-2. **JR Pass**: Hitung dulu rutenya, terkadang tiket ketengan lebih murah.
-3. **Capsule Hotel**: Pengalaman unik dan hemat biaya.
-
-Jangan lupa kunjungi Kyoto saat musim gugur, pemandangannya luar biasa!`,
-        author: users[4]._id,
-      },
-      {
-        title: "Mengapa React Masih Populer?",
-        category: "Tech",
-        content: `Meskipun banyak framework baru bermunculan, React tetap menjadi raja library UI. Mengapa?
-
-- **Ekosistem Raksasa**: Hampir semua masalah sudah ada solusinya di npm.
-- **Komunitas**: Dukungan komunitas yang masif.
-- **Evolusi**: React Server Components mengubah cara kita membangun aplikasi fullstack.
-
-Apakah kalian sudah mencoba React 19?`,
-        author: users[0]._id,
-      },
-      {
-        title: "Resep Kopi V60 Sempurna di Rumah",
+        title: "Seni Hidup Minimalis di Era Digital",
         category: "Lifestyle",
-        content: `Menyeduh kopi manual brew itu seni. V60 adalah salah satu metode paling populer.
+        image: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        content: `Minimalisme bukan hanya tentang memiliki sedikit barang. Ini tentang memberi ruang pada hal-hal yang benar-benar penting. Di era notifikasi tanpa henti, minimalisme digital menjadi kebutuhan.
 
-**Resep Dasar:**
-- 15g Kopi (gilingan medium-fine)
-- 250ml Air (suhu 92°C)
-- Waktu seduh: 2:30 menit
+Cobalah untuk:
+- Matikan notifikasi yang tidak esensial.
+- Hapus aplikasi yang hanya membuang waktu.
+- Tetapkan batasan waktu layar.
 
-**Langkah:**
-1. Blooming 30g air, tunggu 45 detik.
-2. Tuang perlahan hingga 150g.
-3. Tuang sisanya hingga 250g.
-
-Nikmati kopi pagimu!`,
-        author: users[1]._id,
+**Less clutter, more clarity.** Ketenangan pikiran adalah kemewahan baru.`,
+        author: users[1]._id, // Sarah
       },
       {
-        title: "Belajar Coding dari Nol: Mulai Dari Mana?",
+        title: "Eksplorasi Keindahan Alam Indonesia",
+        category: "Travel",
+        image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        content: `Indonesia tidak pernah kehabisan pesona. Dari Raja Ampat hingga Labuan Bajo, setiap sudut negeri ini menawarkan keajaiban.
+
+Perjalanan terakhir saya ke Sumba membuka mata saya tentang betapa kayanya budaya kita. Kain tenun ikat, rumah adat menara, dan senyum ramah penduduk lokal adalah harta yang tak ternilai.
+
+*Jangan lupa membawa kamera, karena setiap momen di sini layak diabadikan.*`,
+        author: users[0]._id, // Arifin Dava
+      },
+      {
+        title: "Coding: Bahasa Masa Depan",
         category: "Tech",
-        content: `Banyak yang bingung harus mulai dari mana saat belajar coding. 
+        image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        content: `Memahami cara kerja komputer adalah *superpower* di abad 21. Tidak harus menjadi software engineer profesional, pemahaman dasar tentang algoritma dan logika pemrograman dapat membantu memecahkan masalah di bidang apa pun.
 
-**Saran Jalur:**
-1. **HTML & CSS**: Dasar web.
-2. **JavaScript**: Logika pemrograman.
-3. **Pilih Jalur**: Frontend (React/Vue), Backend (Node/Python), atau Mobile.
-
-Konsistensi adalah kunci!`,
-        author: users[2]._id,
+Mulailah dengan Python atau JavaScript. Sumber belajar gratis bertebaran di internet. Konsistensi adalah kuncinya.`,
+        author: users[2]._id, // David
       },
       {
-        title: "Review Gadget Terbaru: Smart Ring",
-        category: "Gadgets",
-        content: `Smart Ring mulai menggantikan Smartwatch untuk tracking kesehatan. Bentuknya kecil, baterai tahan lama, dan tidak mengganggu penampilan.
+        title: "Work-Life Balance: Mitos atau Fakta?",
+        category: "Career",
+        image: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        content: `Bekerja keras itu penting, tapi istirahat itu produktif. Burnout bukanlah lencana kehormatan.
 
-**Fitur Favorit:**
-- Sleep Tracking akurat
-- Stress Monitoring
-- Desain stylish
+Tips menjaga keseimbangan:
+1. Tetapkan jam kerja yang jelas.
+2. Punya hobi di luar pekerjaan.
+3. Tidur yang cukup.
 
-Harganya memang masih premium, tapi worth it untuk kesehatan jangka panjang.`,
-        author: users[0]._id,
+Ingat, karier adalah maraton, bukan lari sprint.`,
+        author: users[3]._id, // Emily
       },
       {
-        title: "Meditasi 10 Menit Sehari Mengubah Hidupku",
-        category: "Wellness",
-        content: `Di dunia yang serba cepat, ketenangan adalah barang mewah. Saya mencoba rutin meditasi 10 menit setiap pagi selama sebulan.
+        title: "Fotografi Jalanan: Menangkap Momen Mentah",
+        category: "Photography",
+        image: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        content: `Jalanan adalah panggung teater tanpa naskah. Emosi, interaksi, dan cahaya berpadu dalam hitungan detik.
 
-**Hasilnya:**
-- Fokus meningkat
-- Emosi lebih stabil
-- Tidur lebih nyenyak
-
-Cobalah aplikasi seperti Headspace atau Calm untuk memulai.`,
-        author: users[3]._id,
+Tips untuk pemula:
+- Gunakan lensa lebar (35mm atau 28mm).
+- Jangan takut mendekat.
+- Tunggu momen, jangan memburu.`,
+        author: users[4]._id, // Marcus
       },
+      {
+        title: "Membangun Startup: Dari Ide ke Eksekusi",
+        category: "Business",
+        image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        content: `Ide itu murah, eksekusi itu mahal. Banyak orang punya ide "The Next Facebook", tapi sedikit yang mau begadang mengerjakannya.
+
+Validasi ide kamu secepat mungkin. Buat MVP (Minimum Viable Product), lempar ke pasar, dan dengarkan feedback. Jangan jatuh cinta pada solusinya, tapi jatuh cintalah pada masalah yang ingin kamu selesaikan.`,
+        author: users[0]._id, // Arifin Dava
+      },
+      {
+        title: "Kesehatan Mental di Tempat Kerja",
+        category: "Health",
+        image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        content: `Kesehatan mental sama pentingnya dengan kesehatan fisik. Lingkungan kerja yang toksik dapat menghancurkan keduanya.
+
+Jika kamu merasa tertekan:
+- Bicaralah dengan atasan atau HR.
+- Ambil cuti untuk recharge.
+- Cari bantuan profesional jika perlu.`,
+        author: users[1]._id, // Sarah
+      },
+      {
+        title: "Keajaiban Kopi Hitam",
+        category: "Lifestyle",
+        image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        content: `Bagi sebagian orang, kopi hanyalah kafein. Bagi saya, kopi adalah ritual. Aroma biji kopi yang baru digiling, suara air panas menyentuh bubuk kopi, dan rasa kompleks yang dihasilkan.
+
+Cobalah single origin dari Ethiopia atau Gayo. Nikmati tanpa gula. Kamu akan menemukan dunia rasa baru.`,
+        author: users[2]._id, // David
+      }
     ];
 
     const posts = await Post.insertMany(postsData);
