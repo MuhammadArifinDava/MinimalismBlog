@@ -70,16 +70,11 @@ function PostFormPage() {
     }
 
     try {
-      const config = {
-        headers: {
-          "Content-Type": undefined,
-        },
-      };
       if (isEdit) {
-        const { data } = await api.put(`/posts/${id}`, formData, config);
+        const { data } = await api.put(`/posts/${id}`, formData);
         navigate(`/posts/${data.post._id}`);
       } else {
-        const { data } = await api.post("/posts", formData, config);
+        const { data } = await api.post("/posts", formData);
         navigate(`/posts/${data.post._id}`);
       }
     } catch (err) {
