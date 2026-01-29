@@ -1,5 +1,6 @@
 const { Post } = require("../models/Post");
 const { Comment } = require("../models/Comment");
+const { User } = require("../models/User");
 const { isValidObjectId } = require("../middleware/ownership");
 
 function parsePagination(query) {
@@ -16,7 +17,14 @@ async function listPosts(req, res) {
 
   const filter = {};
   if (q) {
-    filter.$text = { $search: q };
+    const users = await User.find({ username: { $regex: q, $options: "i" } }).select("_id");
+    const userIds = users.map((u) => u._id);
+    
+    filter.$or = [
+      { title: { $regex: q, $options: "i" } },
+      { content: { $regex: q, $options: "i" } },
+      { author: { $in: userIds } },
+    ];
   }
 
   const total = await Post.countDocuments(filter);
@@ -26,7 +34,7 @@ async function listPosts(req, res) {
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
-    .populate("author", "username")
+    .populate("author", "username avatarPath")
     .lean();
 
   return res.json({ items, page, limit, total, pages });
@@ -37,7 +45,7 @@ async function getPost(req, res) {
   if (!isValidObjectId(id)) {
     return res.status(404).json({ message: "Not found" });
   }
-  const post = await Post.findById(id).populate("author", "username").lean();
+  const post = await Post.findById(id).populate("author", "username avatarPath").lean();
   if (!post) {
     return res.status(404).json({ message: "Not found" });
   }
@@ -57,7 +65,7 @@ async function createPost(req, res) {
     return res.status(400).json({ message: "Invalid title" });
   }
 
-  if (content.length < 10) {
+  if (content.length < 3) {
     return res.status(400).json({ message: "Invalid content" });
   }
 
@@ -65,8 +73,10 @@ async function createPost(req, res) {
     return res.status(400).json({ message: "Invalid category" });
   }
 
-  const post = await Post.create({ title, content, category, author: req.user.id });
-  const populated = await Post.findById(post._id).populate("author", "username").lean();
+  const image = req.file ? `/uploads/${req.file.filename}` : "";
+
+  const post = await Post.create({ title, content, category, image, author: req.user.id });
+  const populated = await Post.findById(post._id).populate("author", "username avatarPath").lean();
   return res.status(201).json({ post: populated });
 }
 
@@ -83,7 +93,7 @@ async function updatePost(req, res) {
     return res.status(400).json({ message: "Invalid title" });
   }
 
-  if (content.length < 10) {
+  if (content.length < 3) {
     return res.status(400).json({ message: "Invalid content" });
   }
 
@@ -94,6 +104,11 @@ async function updatePost(req, res) {
   req.post.title = title;
   req.post.content = content;
   req.post.category = category;
+
+  if (req.file) {
+    req.post.image = `/uploads/${req.file.filename}`;
+  }
+
   await req.post.save();
 
   const populated = await Post.findById(req.post._id).populate("author", "username").lean();
