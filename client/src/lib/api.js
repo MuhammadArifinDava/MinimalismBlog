@@ -1,7 +1,17 @@
 import axios from "axios";
 
+let baseURL = import.meta.env.VITE_API_URL;
+
+if (!baseURL) {
+  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+    baseURL = "http://localhost:5001";
+  } else {
+    baseURL = "https://minimalism-a93d11758d8d.herokuapp.com";
+  }
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000",
+  baseURL,
 });
 
 api.interceptors.request.use((config) => {
