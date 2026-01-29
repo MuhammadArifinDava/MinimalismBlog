@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const { env } = require("../config/env");
+const { User } = require("../models/User");
 
-function requireAuth(req, res, next) {
+async function requireAuth(req, res, next) {
   const header = req.headers.authorization || "";
   const [scheme, token] = header.split(" ");
 
@@ -14,6 +15,13 @@ function requireAuth(req, res, next) {
       env.require("JWT_SECRET");
     }
     const payload = jwt.verify(token, env.jwtSecret);
+    
+    // Verify if user still exists in DB
+    const user = await User.findById(payload.id || payload._id);
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized - User not found" });
+    }
+
     req.user = payload;
     return next();
   } catch (_err) {

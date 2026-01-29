@@ -10,6 +10,7 @@ const { usersRoutes } = require("./routes/usersRoutes");
 const app = express();
 
 app.use(express.json({ limit: "1mb" }));
+app.use(express.urlencoded({ extended: true }));
 
 const allowedOrigins = String(env.clientOrigin || "")
   .split(",")

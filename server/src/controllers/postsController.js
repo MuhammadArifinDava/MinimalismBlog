@@ -53,11 +53,17 @@ async function getPost(req, res) {
 }
 
 async function createPost(req, res) {
+  console.log("createPost hit");
+  console.log("Content-Type:", req.headers["content-type"]);
+  console.log("req.body:", req.body);
+  console.log("req.file:", req.file);
+
   const title = String(req.body.title || "").trim();
   const content = String(req.body.content || "").trim();
   const category = String(req.body.category || "").trim();
 
   if (!title || !content) {
+    console.log("Validation failed: Title or Content missing");
     return res.status(400).json({ message: "Field required" });
   }
 
