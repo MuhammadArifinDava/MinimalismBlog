@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import Tilt from "react-parallax-tilt";
 import { api } from "../lib/api";
 import { Container } from "../components/Container";
 import { Alert } from "../components/Alert";
 import { Spinner } from "../components/Spinner";
 import { useAuth } from "../context/useAuth";
+import { getPostImageUrl, getUserAvatarUrl } from "../utils/imageUtils";
 
 function ProfilePage() {
   const { user, refreshMe } = useAuth();
@@ -13,13 +15,7 @@ function ProfilePage() {
   const [avatarError, setAvatarError] = useState("");
   const fileRef = useRef(null);
 
-  const avatarUrl = useMemo(() => {
-    const path = user?.avatarPath || "";
-    if (!path) return "";
-    if (path.startsWith("http://") || path.startsWith("https://")) return path;
-    const base = import.meta.env.VITE_API_URL || "http://localhost:5001";
-    return `${base}${path}`;
-  }, [user?.avatarPath]);
+  const avatarUrl = useMemo(() => getUserAvatarUrl(user), [user]);
 
   useEffect(() => {
     let alive = true;
@@ -133,38 +129,71 @@ function ProfilePage() {
             <Spinner />
           </div>
         ) : (
-          <div className="mt-4 space-y-3">
+          <div className="mt-4">
             {state.posts.length === 0 ? (
               <div className="surface rounded-2xl p-6 text-sm text-slate-600">
                 You haven’t created any posts yet.
               </div>
-            ) : null}
-            {state.posts.map((p) => (
-              <div key={p._id} className="card-3d shine surface rounded-2xl p-5 transition hover:shadow-lg">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="text-sm font-semibold text-slate-900">{p.title}</div>
-                    <div className="mt-1 text-xs text-slate-500">
-                      {p.createdAt ? new Date(p.createdAt).toLocaleString() : ""}
+            ) : (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {state.posts.map((p) => (
+                  <Tilt
+                    key={p._id}
+                    className="h-full"
+                    perspective={1400}
+                    glareEnable={true}
+                    glareMaxOpacity={0.45}
+                    scale={1.01}
+                    gyroscope={false}
+                    transitionSpeed={1500}
+                    tiltMaxAngleX={10}
+                    tiltMaxAngleY={10}
+                  >
+                    <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-xl">
+                      <div className="relative h-48 overflow-hidden bg-slate-100">
+                        <img
+                          src={getPostImageUrl(p)}
+                          alt={p.title}
+                          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition group-hover:opacity-100" />
+                      </div>
+                      
+                      <div className="flex flex-1 flex-col p-6">
+                        <div className="mb-2 flex items-center gap-2">
+                          <span className="inline-block rounded-full bg-slate-100 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-slate-600">
+                            {p.category || "Post"}
+                          </span>
+                        </div>
+                        
+                        <h3 className="text-lg font-semibold leading-snug text-slate-900 line-clamp-2">
+                          {p.title}
+                        </h3>
+                        
+                        <div className="mt-4 flex items-center gap-3 text-xs text-slate-500">
+                          <span>{p.createdAt ? new Date(p.createdAt).toLocaleDateString() : ""}</span>
+                        </div>
+
+                        <div className="mt-6 flex items-center gap-2 pt-4 border-t border-slate-100">
+                          <Link
+                            to={`/posts/${p._id}`}
+                            className="flex-1 rounded-full bg-slate-900 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-black"
+                          >
+                            View
+                          </Link>
+                          <Link
+                            to={`/edit/${p._id}`}
+                            className="flex-1 rounded-full border border-slate-200 px-4 py-2 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                          >
+                            Edit
+                          </Link>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <Link
-                      to={`/posts/${p._id}`}
-                      className="rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-white"
-                    >
-                      View
-                    </Link>
-                    <Link
-                      to={`/edit/${p._id}`}
-                      className="rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-white"
-                    >
-                      Edit
-                    </Link>
-                  </div>
-                </div>
+                  </Tilt>
+                ))}
               </div>
-            ))}
+            )}
           </div>
         )}
       </div>

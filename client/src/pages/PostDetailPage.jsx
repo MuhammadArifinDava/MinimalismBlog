@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { motion as Motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { api } from "../lib/api";
@@ -7,6 +8,7 @@ import { useAuth } from "../context/useAuth";
 import { Container } from "../components/Container";
 import { Alert } from "../components/Alert";
 import { Spinner } from "../components/Spinner";
+import { getPostImageUrl, getUserAvatarUrl } from "../utils/imageUtils";
 
 function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString("id-ID", {
@@ -15,10 +17,6 @@ function formatDate(dateString) {
     month: "long",
     day: "numeric",
   });
-}
-
-function getRandomImage(id) {
-  return `https://picsum.photos/seed/${id}/1200/600`;
 }
 
 function PostDetailPage() {
@@ -37,6 +35,10 @@ function PostDetailPage() {
     if (!user || !postState.post?.author?._id) return false;
     return String(user._id) === String(postState.post.author._id);
   }, [user, postState.post]);
+
+  const imageUrl = useMemo(() => {
+    return getPostImageUrl(postState.post);
+  }, [postState.post]);
 
   const loadPost = useCallback(() => {
     setPostState((s) => ({ ...s, loading: true, error: "" }));
@@ -155,51 +157,72 @@ function PostDetailPage() {
   const { post } = postState;
 
   return (
-    <div className="bg-white pb-20">
-      <div className="h-[40vh] w-full overflow-hidden bg-slate-900 relative">
+    <div className="bg-transparent pb-20">
+      <div className="h-[58vh] w-full overflow-hidden bg-slate-900 relative">
+        <div className="absolute inset-0 bg-black/20 mix-blend-overlay z-10" />
         <img
-          src={getRandomImage(post._id)}
+          src={imageUrl}
           alt={post.title}
-          className="h-full w-full object-cover opacity-80"
+          className="h-full w-full object-cover opacity-90 blur-[1px] scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-8">
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-20" />
+        <div className="absolute bottom-0 left-0 right-0 p-10 z-30">
           <Container>
-            <div className="max-w-3xl mx-auto">
-              <span className="inline-flex items-center rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-medium text-indigo-400 ring-1 ring-inset ring-indigo-400/30 mb-4">
+            <Motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              viewport={{ once: true, amount: 0.6 }}
+              className="mx-auto max-w-4xl"
+            >
+              <span className="inline-flex items-center rounded-full bg-white/15 backdrop-blur-md px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/80 ring-1 ring-inset ring-white/25 mb-6">
                 {post.category ? post.category : "Article"}
               </span>
-              <h1 className="text-3xl font-bold text-white sm:text-5xl leading-tight mb-4">
+              <h1 className="font-display text-4xl font-semibold text-white sm:text-6xl leading-tight mb-6">
                 {post.title}
               </h1>
-            </div>
+            </Motion.div>
           </Container>
         </div>
       </div>
 
       <Container>
-        <div className="card-3d shine surface mx-auto max-w-3xl -mt-8 relative z-10 p-8 rounded-3xl transition hover:shadow-xl">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-8 mb-8">
-            <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
-                {post.author?.username?.substring(0, 2).toUpperCase()}
-              </div>
+        <div className="glass-panel mx-auto max-w-4xl -mt-14 relative z-40 p-10 rounded-[36px] border border-white/60">
+          <div className="flex flex-col gap-6 border-b border-slate-200/50 pb-8 mb-8 sm:flex-row sm:items-center sm:justify-between">
+            <Link 
+              to={post.author?._id ? `/author/${post.author._id}` : "#"}
+              className="flex items-center gap-4 hover:opacity-80 transition-opacity"
+              onClick={(e) => {
+                if (!post.author?._id) e.preventDefault();
+              }}
+            >
+              {getUserAvatarUrl(post.author) ? (
+                <img
+                  src={getUserAvatarUrl(post.author)}
+                  alt={post.author?.username}
+                  className="h-12 w-12 rounded-full object-cover border border-slate-200 shadow-sm"
+                />
+              ) : (
+                <div className="h-12 w-12 rounded-full bg-slate-900 text-white flex items-center justify-center text-sm font-semibold">
+                  {post.author?.username?.substring(0, 2).toUpperCase()}
+                </div>
+              )}
               <div>
-                <p className="font-semibold text-slate-900">{post.author?.username}</p>
-                <p className="text-sm text-slate-500">{formatDate(post.createdAt)}</p>
+                <p className="font-semibold text-slate-900 text-lg">{post.author?.username}</p>
+                <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{formatDate(post.createdAt)}</p>
               </div>
-            </div>
+            </Link>
             {isOwner ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <Link
                   to={`/edit/${post._id}`}
-                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                  className="rounded-full border border-slate-200 bg-white/80 px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-[0_12px_40px_rgba(0,0,0,0.06)] transition hover:-translate-y-0.5 hover:bg-white"
                 >
                   Edit Post
                 </Link>
                 <button
                   onClick={onDeletePost}
-                  className="rounded-full bg-red-50 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-100 transition-colors"
+                  className="rounded-full bg-black px-5 py-2.5 text-sm font-semibold text-white shadow-[0_18px_60px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:bg-black/90"
                 >
                   Delete Post
                 </button>
@@ -207,12 +230,13 @@ function PostDetailPage() {
             ) : null}
           </div>
 
-          <article className="prose prose-lg prose-indigo max-w-none text-slate-600">
+          <article className="prose prose-lg prose-stone max-w-none text-slate-700">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
           </article>
 
-          <div className="mt-16 border-t border-slate-200 pt-10">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8">
+          <div className="mt-16 border-t border-slate-200/50 pt-10">
+            <h2 className="font-display text-3xl font-semibold text-slate-900 mb-8 flex items-center gap-3">
+              <span className="h-7 w-1 rounded-full bg-slate-900" />
               Comments ({commentsState.items.length})
             </h2>
 
@@ -222,23 +246,31 @@ function PostDetailPage() {
               </div>
             ) : null}
 
-            {isAuthenticated ? (
-              <form onSubmit={onCreateComment} className="mb-10 flex gap-4 items-start">
-                <div className="h-10 w-10 rounded-full bg-slate-200 flex-shrink-0 flex items-center justify-center text-slate-600 font-bold">
-                  {user.username.substring(0, 2).toUpperCase()}
-                </div>
+            {isAuthenticated && user ? (
+              <form onSubmit={onCreateComment} className="mb-12 flex gap-4 items-start bg-white/80 p-6 rounded-[28px] border border-white/60 shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
+                {getUserAvatarUrl(user) ? (
+                  <img
+                    src={getUserAvatarUrl(user)}
+                    alt={user.username}
+                    className="h-10 w-10 rounded-full object-cover border border-slate-200 shadow-sm"
+                  />
+                ) : (
+                  <div className="h-10 w-10 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-semibold">
+                    {user?.username?.substring(0, 2).toUpperCase()}
+                  </div>
+                )}
                 <div className="flex-1">
                   <textarea
                     value={commentInput}
                     onChange={(e) => setCommentInput(e.target.value)}
                     placeholder="What are your thoughts?"
-                    className="w-full rounded-xl border-slate-200 p-4 text-sm focus:border-indigo-500 focus:ring-indigo-500 min-h-[100px]"
+                    className="w-full rounded-[22px] border border-white/60 bg-white/90 p-4 text-sm shadow-sm ring-1 ring-inset ring-slate-200 focus:border-slate-300 focus:ring-2 focus:ring-black/10 min-h-[110px]"
                   />
-                  <div className="mt-2 flex justify-end">
+                  <div className="mt-3 flex justify-end">
                     <button
                       type="submit"
                       disabled={commentBusy || !commentInput.trim()}
-                      className="rounded-full bg-indigo-600 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 disabled:opacity-50 transition-all"
+                      className="rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white shadow-[0_18px_60px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:bg-black disabled:opacity-50"
                     >
                       {commentBusy ? "Posting..." : "Post Comment"}
                     </button>
@@ -246,10 +278,10 @@ function PostDetailPage() {
                 </div>
               </form>
             ) : (
-              <div className="rounded-xl bg-slate-50 p-6 text-center mb-10">
-                <p className="text-slate-600">
+              <div className="rounded-[28px] bg-white/80 border border-white/60 p-8 text-center mb-12">
+                <p className="text-slate-600 font-medium">
                   Please{" "}
-                  <Link to="/login" className="text-indigo-600 font-semibold hover:underline">
+                  <Link to="/login" className="text-slate-900 font-semibold">
                     log in
                   </Link>{" "}
                   to join the discussion.
@@ -268,15 +300,23 @@ function PostDetailPage() {
 
                   return (
                     <div key={comment._id} className="flex gap-4">
-                      <div className="h-10 w-10 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center text-slate-500 font-bold text-sm">
-                        {comment.author?.username?.substring(0, 2).toUpperCase()}
-                      </div>
+                      {getUserAvatarUrl(comment.author) ? (
+                        <img
+                          src={getUserAvatarUrl(comment.author)}
+                          alt={comment.author?.username}
+                          className="h-10 w-10 rounded-full object-cover border border-slate-200 shadow-sm flex-shrink-0"
+                        />
+                      ) : (
+                        <div className="h-10 w-10 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center text-slate-500 font-semibold text-sm">
+                          {comment.author?.username?.substring(0, 2).toUpperCase()}
+                        </div>
+                      )}
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-1">
                           <p className="font-semibold text-slate-900 text-sm">
                             {comment.author?.username}
                           </p>
-                          <time className="text-xs text-slate-400">
+                          <time className="text-[11px] uppercase tracking-[0.2em] text-slate-400">
                             {formatDate(comment.createdAt)}
                           </time>
                         </div>
@@ -286,20 +326,20 @@ function PostDetailPage() {
                             <textarea
                               value={commentEditText}
                               onChange={(e) => setCommentEditText(e.target.value)}
-                              className="w-full rounded-md border-slate-300 text-sm p-2"
+                              className="w-full rounded-[18px] border border-slate-200 bg-white/90 text-sm p-3"
                               rows={3}
                             />
                             <div className="mt-2 flex gap-2">
                               <button
                                 type="submit"
-                                className="text-xs font-medium text-indigo-600 hover:text-indigo-500"
+                                className="text-xs font-semibold text-slate-900"
                               >
                                 Save
                               </button>
                               <button
                                 type="button"
                                 onClick={cancelEditComment}
-                                className="text-xs font-medium text-slate-500 hover:text-slate-400"
+                                className="text-xs font-medium text-slate-500"
                               >
                                 Cancel
                               </button>
@@ -315,13 +355,13 @@ function PostDetailPage() {
                           <div className="mt-2 flex gap-3">
                             <button
                               onClick={() => startEditComment(comment)}
-                              className="text-xs font-medium text-slate-500 hover:text-indigo-600"
+                              className="text-xs font-medium text-slate-500 hover:text-slate-900"
                             >
                               Edit
                             </button>
                             <button
                               onClick={() => onDeleteComment(comment._id)}
-                              className="text-xs font-medium text-slate-500 hover:text-red-600"
+                              className="text-xs font-medium text-slate-500 hover:text-slate-900"
                             >
                               Delete
                             </button>
@@ -336,6 +376,30 @@ function PostDetailPage() {
           </div>
         </div>
       </Container>
+
+      <div className="fixed bottom-10 right-10 z-50">
+        <button
+          onClick={() => navigate(-1)}
+          className="group flex items-center gap-2 rounded-full bg-slate-900 px-6 py-4 text-sm font-semibold text-white shadow-[0_20px_40px_rgba(0,0,0,0.2)] transition-all hover:-translate-y-1 hover:bg-black hover:shadow-[0_25px_50px_rgba(0,0,0,0.3)]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="transition-transform group-hover:-translate-x-1"
+          >
+            <path d="M19 12H5" />
+            <path d="m12 19-7-7 7-7" />
+          </svg>
+          Back
+        </button>
+      </div>
     </div>
   );
 }

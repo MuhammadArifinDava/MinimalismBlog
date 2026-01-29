@@ -6,25 +6,25 @@ function Pagination({ page, pages, totalPages, onPageChange }) {
   const nextDisabled = page >= total;
 
   return (
-    <div className="flex items-center justify-between gap-3 py-4">
+    <div className="flex items-center justify-center gap-4 py-4">
       <button
         type="button"
         onClick={() => onPageChange(page - 1)}
         disabled={prevDisabled}
-        className="rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 backdrop-blur transition hover:bg-white disabled:opacity-50"
+        className="rounded-full border border-slate-200 bg-white/80 px-6 py-2.5 text-sm font-semibold text-slate-700 shadow-[0_12px_40px_rgba(0,0,0,0.06)] transition hover:-translate-y-0.5 hover:bg-white disabled:opacity-50"
       >
-        Prev
+        Previous
       </button>
-      <div className="text-sm text-slate-600">
-        Page {page} / {total}
+      <div className="flex items-center justify-center h-10 min-w-[3rem] rounded-full border border-slate-200 bg-white/90 px-4 text-sm font-semibold text-slate-700">
+        {page} <span className="mx-1 text-slate-300">/</span> {total}
       </div>
       <button
         type="button"
         onClick={() => onPageChange(page + 1)}
         disabled={nextDisabled}
-        className="rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 backdrop-blur transition hover:bg-white disabled:opacity-50"
+        className="rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white shadow-[0_18px_60px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:bg-black disabled:opacity-50"
       >
-        Next
+        Next Page
       </button>
     </div>
   );
