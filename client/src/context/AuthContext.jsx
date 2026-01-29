@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
-import { AuthContext } from "./authContext";
+
+const AuthContext = createContext(null);
 
 function AuthProvider({ children }) {
   const [token, setTokenState] = useState(() => localStorage.getItem("token") || "");
@@ -75,4 +76,4 @@ function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export { AuthProvider };
+export { AuthProvider, AuthContext };
