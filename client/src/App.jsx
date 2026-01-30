@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import SplashCursor from "./components/SplashCursor";
+import { Navbar } from "./components/Navbar";
 import { SmoothScroll } from "./components/SmoothScroll";
 import { ParallaxBackdrop } from "./components/ParallaxBackdrop";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
