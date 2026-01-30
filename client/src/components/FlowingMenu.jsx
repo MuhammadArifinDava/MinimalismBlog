@@ -134,7 +134,7 @@ function MenuItem({
     >
       {isExternal ? (
         <a
-          className="relative flex h-full items-center justify-center py-10 font-display text-[5vh] font-semibold uppercase tracking-[0.2em] no-underline"
+          className="relative flex h-full items-center justify-center py-5 font-display text-2xl sm:text-3xl md:text-5xl font-semibold uppercase tracking-[0.2em] no-underline"
           href={link}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}

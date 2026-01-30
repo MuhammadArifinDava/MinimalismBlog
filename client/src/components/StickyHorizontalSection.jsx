@@ -15,7 +15,7 @@ function StickyHorizontalSection({ items, title, subtitle }) {
       if (!track) return;
       const totalWidth = track.scrollWidth;
       const viewport = window.innerWidth;
-      const distance = Math.max(0, totalWidth - viewport + 20);
+      const distance = Math.max(0, totalWidth - viewport);
       setScrollRange(distance);
       setSectionHeight(distance + window.innerHeight);
     };
