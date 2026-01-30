@@ -24,7 +24,8 @@ const allowedOrigins = String(env.clientOrigin || "")
 
 app.use(
   cors({
-    origin: env.nodeEnv === "development" ? true : allowedOrigins,
+    origin: true,
+    credentials: true,
   })
 );
 
