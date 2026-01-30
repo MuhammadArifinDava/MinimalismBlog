@@ -144,7 +144,7 @@ function MenuItem({
         </a>
       ) : (
         <Link
-          className="relative flex h-full items-center justify-center py-10 font-display text-[5vh] font-semibold uppercase tracking-[0.2em] no-underline"
+          className="relative flex h-full items-center justify-center py-2 font-display text-lg sm:text-xl md:text-3xl font-semibold uppercase tracking-[0.2em] no-underline"
           to={link}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
