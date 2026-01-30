@@ -18,6 +18,11 @@ const env = {
   mongoUri: process.env.MONGO_URI || "",
   jwtSecret: process.env.JWT_SECRET || "",
   clientOrigin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
+  cloudinary: {
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    apiSecret: process.env.CLOUDINARY_API_SECRET,
+  },
   require: requireEnv,
 };
 

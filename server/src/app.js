@@ -9,6 +9,11 @@ const { usersRoutes } = require("./routes/usersRoutes");
 
 const app = express();
 
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 

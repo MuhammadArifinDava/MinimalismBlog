@@ -64,7 +64,11 @@ async function createPost(req, res) {
 
   if (!title || !content) {
     console.log("Validation failed: Title or Content missing");
-    return res.status(400).json({ message: "Field required" });
+    return res.status(400).json({ 
+      message: "Field required", 
+      details: { title, content, category },
+      receivedBody: req.body 
+    });
   }
 
   if (title.length < 3 || title.length > 120) {
@@ -112,7 +116,9 @@ async function updatePost(req, res) {
   req.post.category = category;
 
   if (req.file) {
-    req.post.image = `/uploads/${req.file.filename}`;
+    req.post.image = req.file.path && req.file.path.startsWith("http") 
+      ? req.file.path 
+      : `/uploads/${req.file.filename}`;
   }
 
   await req.post.save();

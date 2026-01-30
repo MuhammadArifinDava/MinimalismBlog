@@ -26,7 +26,11 @@ async function updateMyAvatar(req, res) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  user.avatarPath = `/uploads/${req.file.filename}`;
+  const avatarPath = req.file.path && req.file.path.startsWith("http") 
+    ? req.file.path 
+    : `/uploads/${req.file.filename}`;
+
+  user.avatarPath = avatarPath;
   await user.save();
 
   return res.json({ user: user.toJSON() });
