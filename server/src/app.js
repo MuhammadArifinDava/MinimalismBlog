@@ -44,9 +44,12 @@ app.use((_req, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
-app.use((err, _req, res, _next) => {
+app.use((err, req, res, _next) => {
+  console.error("Error encountered:", err);
+  if (req.file) console.log("Uploaded file:", req.file);
+  
   const status =
-    err.code === "LIMIT_FILE_SIZE" || err.message === "Invalid file type"
+    err.code === "LIMIT_FILE_SIZE" || err.message.includes("Invalid file type")
       ? 400
       : err.status || 500;
   const message =
