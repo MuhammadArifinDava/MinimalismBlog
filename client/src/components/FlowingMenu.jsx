@@ -161,7 +161,7 @@ function MenuItem({
         <div className="flex h-full w-fit items-center" ref={marqueeInnerRef}>
           {[...Array(repetitions)].map((_, idx) => (
             <div className="marquee-part flex items-center shrink-0" key={idx} style={{ color: marqueeTextColor }}>
-              <span className="whitespace-nowrap font-display text-2xl sm:text-3xl md:text-5xl font-medium uppercase tracking-[0.2em] leading-[1] px-[1vw]">
+              <span className="whitespace-nowrap font-display text-sm sm:text-base md:text-xl font-medium uppercase tracking-[0.2em] leading-[1] px-[1vw]">
                 {text}
               </span>
               <div

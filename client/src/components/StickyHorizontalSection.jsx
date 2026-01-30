@@ -75,7 +75,7 @@ function StickyHorizontalSection({ items, title, subtitle }) {
               </h2>
             </Motion.div>
 
-            <div className="mt-10">
+            <div className="mt-24">
               <Motion.div ref={trackRef} style={{ x }} className="flex gap-8 items-center">
                 {visibleItems.map((item, index) => (
                     <div
