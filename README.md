@@ -4,7 +4,7 @@ A full-stack blog application built with the **MERN stack** (MongoDB, Express, R
 
 ## 🚀 Live Demo
 
-- **Frontend (Netlify):** [INSERT_NETLIFY_URL_HERE]
+- **Frontend (Netlify):** https://minimalismdav.netlify.app/
 - **Backend (Heroku):** https://minimalism-a93d11758d8d.herokuapp.com
 
 ## 🛠 Tech Stack
