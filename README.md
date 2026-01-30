@@ -22,7 +22,6 @@ A full-stack blog application built with the **MERN stack** (MongoDB, Express, R
 - **Runtime:** Node.js (v20.x), Express.js
 - **Database:** MongoDB Atlas (Mongoose ODM)
 - **Authentication:** JWT (JSON Web Tokens), Bcrypt
-- **File Upload:** Multer (Local storage for demo purposes)
 
 ### Tools & DevOps
 - **Monorepo Management:** `npm-run-all`
@@ -140,6 +139,3 @@ FullStackTest/
 3.  **Local Image Storage:** For simplicity in this task, images are uploaded to the local filesystem (`uploads/` directory) and served statically. In a production environment, this would be replaced with Cloudinary or AWS S3.
 4.  **Markdown:** Chosen for post content to allow rich text formatting without the complexity of a heavy WYSIWYG editor.
 
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
