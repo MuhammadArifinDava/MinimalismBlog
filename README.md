@@ -6,6 +6,7 @@ A full-stack blog application built with the **MERN stack** (MongoDB, Express, R
 
 - **Frontend (Netlify):** https://minimalismdav.netlify.app/
 - **Backend (Heroku):** https://minimalism-a93d11758d8d.herokuapp.com
+- Link Assignment Video Recording (Behavioral): (https://drive.google.com/file/d/1s1ku9yK_Ja__nAx_3zsbxv_wkHvOj9XW/view?usp=sharing)
 
 ## 🛠 Tech Stack
 
