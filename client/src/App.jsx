@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import SplashCursor from "./components/SplashCursor";
-import { Navbar } from "./components/Navbar";
 import { SmoothScroll } from "./components/SmoothScroll";
 import { ParallaxBackdrop } from "./components/ParallaxBackdrop";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
@@ -33,7 +32,6 @@ function App() {
           />
         </div>
         <div className="relative z-10">
-          <Navbar />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/posts/:id" element={<PostDetailPage />} />
