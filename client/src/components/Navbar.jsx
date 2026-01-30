@@ -52,7 +52,7 @@ function Navbar() {
   }
 
   return (
-    <div className="z-50 relative">
+    <div className="relative z-[9999]">
       <Dock
         items={items}
         panelHeight={68}

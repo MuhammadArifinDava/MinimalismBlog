@@ -154,8 +154,8 @@ function HomePage() {
                 </p>
               </Motion.div>
 
-              <div className="flex items-center justify-center">
-                <CardSwap width={360} height={300} cardDistance={50} verticalDistance={44}>
+              <div className="flex items-center justify-center mt-24 lg:mt-0">
+                <CardSwap width={320} height={280} cardDistance={40} verticalDistance={40}>
                   {items.slice(0, 3).map((post) => (
                     <Card key={post._id} customClass="bg-white/85">
                       <div className="flex h-full flex-col justify-between p-6">
