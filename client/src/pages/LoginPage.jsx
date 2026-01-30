@@ -39,18 +39,18 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <Motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         viewport={{ once: true, amount: 0.6 }}
-        className="w-full max-w-md p-4 [perspective:1200px]"
+        className="w-full max-w-md mx-auto p-4 [perspective:1200px]"
       >
         <div className="card-3d surface rounded-[32px] bg-white p-8 shadow-xl">
           <div>
             <p className="text-xs uppercase tracking-[0.28em] text-slate-500">Welcome back</p>
-            <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight text-slate-900">
+            <h1 className="mt-4 font-display text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900">
               Sign in to continue.
             </h1>
             <p className="mt-3 text-sm leading-7 text-slate-600">

@@ -89,7 +89,7 @@ export default function Dock({
   // Removed dynamic height calculation for the container to prevent layout shift
 
   return (
-    <Motion.div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none flex justify-center">
+    <Motion.div className={`fixed z-50 pointer-events-none flex justify-center ${className || 'bottom-0 left-0 right-0'}`}>
       <Motion.div
         onMouseMove={({ pageX }) => {
           isHovered.set(1);

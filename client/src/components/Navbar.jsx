@@ -58,6 +58,7 @@ function Navbar() {
         panelHeight={68}
         baseItemSize={50}
         magnification={90}
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 origin-bottom scale-75 sm:scale-100"
       />
     </div>
   );

@@ -83,7 +83,7 @@ function HomePage() {
   }));
 
   return (
-    <div className="min-h-screen bg-transparent pb-24">
+    <div className="min-h-screen bg-transparent pb-32">
       <section className="relative overflow-hidden py-24 sm:py-32">
         <Container>
           <Motion.div
@@ -260,7 +260,7 @@ function HomePage() {
                 )}
               </div>
             ) : (
-              <div className="grid gap-12 lg:grid-cols-2 [perspective:1200px]">
+              <div className="grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 [perspective:1200px]">
                 {items.map((post) => (
                   <Tilt
                     key={post._id}
