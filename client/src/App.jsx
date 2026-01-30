@@ -33,6 +33,7 @@ function App() {
           />
         </div>
         <div className="relative z-10">
+          <Navbar />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/posts/:id" element={<PostDetailPage />} />
