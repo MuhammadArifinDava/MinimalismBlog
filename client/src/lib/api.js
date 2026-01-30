@@ -3,10 +3,10 @@ import axios from "axios";
 let baseURL = import.meta.env.VITE_API_URL;
 
 if (!baseURL) {
-  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-    baseURL = "http://localhost:5001";
-  } else {
+  if (window.location.hostname.includes("herokuapp.com")) {
     baseURL = "https://minimalism-a93d11758d8d.herokuapp.com";
+  } else {
+    baseURL = "http://localhost:5001";
   }
 }
 

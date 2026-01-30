@@ -5,10 +5,10 @@ export function getPostImageUrl(post) {
     
     let base = import.meta.env.VITE_API_URL;
     if (!base) {
-      if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-        base = "http://localhost:5001";
-      } else {
+      if (window.location.hostname.includes("herokuapp.com")) {
         base = "https://minimalism-a93d11758d8d.herokuapp.com";
+      } else {
+        base = "http://localhost:5001";
       }
     }
     
@@ -23,10 +23,10 @@ export function getUserAvatarUrl(user) {
     
     let base = import.meta.env.VITE_API_URL;
     if (!base) {
-      if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-        base = "http://localhost:5001";
-      } else {
+      if (window.location.hostname.includes("herokuapp.com")) {
         base = "https://minimalism-a93d11758d8d.herokuapp.com";
+      } else {
+        base = "http://localhost:5001";
       }
     }
 
